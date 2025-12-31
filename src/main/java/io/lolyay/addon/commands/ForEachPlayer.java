@@ -31,7 +31,10 @@ public class ForEachPlayer extends Command {
                             String command = cmd
                                 .replace("%INDEX%", String.valueOf(i++))
                                 .replace("%PLAYER%", player.getProfile().getName())
-                                .replace("%PLAYER_UUID%", player.getProfile().getName());
+                                .replace("%PLAYER_UUID%", player.getProfile().getName())
+                                .replace("%index%", String.valueOf(i++))
+                                .replace("%player%", player.getProfile().getName())
+                                .replace("%player_uuid%", player.getProfile().getName());
                             ChatUtils.sendPlayerMsg(command);
                         }
                     });
