@@ -1,25 +1,14 @@
 package io.lolyay.addon.mixin;
 
-import com.mojang.serialization.DataResult;
-import io.lolyay.addon.ChannelKeeper;
-import io.lolyay.addon.modules.GuiSlotNbt;
+import io.lolyay.addon.modules.settingsmodules.GuiSlotNbt;
 import io.lolyay.addon.ui.EnterableTextField;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.movement.Scaffold;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.TextWidget;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.registry.Registries;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;

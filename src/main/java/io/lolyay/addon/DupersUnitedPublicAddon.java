@@ -9,6 +9,9 @@ import io.lolyay.addon.modules.crashes.BundleCrash;
 import io.lolyay.addon.modules.dupes.PaperBookDupe;
 import io.lolyay.addon.modules.dupes.ShulkerDupe;
 import io.lolyay.addon.modules.dupes.TradeDupe;
+import io.lolyay.addon.modules.settingsmodules.ForEachSettings;
+import io.lolyay.addon.modules.settingsmodules.GuiMacros;
+import io.lolyay.addon.modules.settingsmodules.GuiSlotNbt;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.commands.Commands;
@@ -49,6 +52,7 @@ public class DupersUnitedPublicAddon extends MeteorAddon {
         Modules.get().add(new GuiMacros());
         Modules.get().add(new GuiSlotNbt());
         Modules.get().add(new SuperReach());
+        Modules.get().add(new ForEachSettings());
 
         //Exploits
         Modules.get().add(new AttributeSwap());

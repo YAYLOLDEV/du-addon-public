@@ -1,4 +1,4 @@
-package io.lolyay.addon.modules;
+package io.lolyay.addon.modules.settingsmodules;
 
 import io.lolyay.addon.DupersUnitedPublicAddon;
 import meteordevelopment.meteorclient.systems.modules.Module;

@@ -2,7 +2,9 @@ package io.lolyay.addon.commands;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import io.lolyay.addon.modules.settingsmodules.ForEachSettings;
 import meteordevelopment.meteorclient.commands.Command;
+import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.client.MinecraftClient;
@@ -22,12 +24,15 @@ public class ForEachPlayer extends Command {
                 .executes((context) -> {
                    String cmd = context.getArgument("cmd", String.class);
                     MeteorExecutor.execute(() -> {
+                        ForEachSettings settings = Modules.get().get(ForEachSettings.class);
                         int i = 0;
                         for(PlayerListEntry player : mc.getNetworkHandler().getPlayerList()) {
                             if(player.getProfile() == null ||
                             (player.getLatency() == 0 && !MinecraftClient.getInstance().isInSingleplayer()) ||
                             player.getProfile().getProperties() == null ||
                             player.getProfile().getId().equals(UUID.fromString("00000000-0000-0000-0000-000000000000"))) continue;
+                            if(player.getProfile().getName().equals(mc.player.getGameProfile().getName()) && !settings.self.get())
+                                continue;
                             String command = cmd
                                 .replace("%INDEX%", String.valueOf(i++))
                                 .replace("%PLAYER%", player.getProfile().getName())
@@ -36,6 +41,11 @@ public class ForEachPlayer extends Command {
                                 .replace("%player%", player.getProfile().getName())
                                 .replace("%player_uuid%", player.getProfile().getName());
                             ChatUtils.sendPlayerMsg(command);
+                            try {
+                                Thread.sleep(settings.delay.get());
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     });
                    return SINGLE_SUCCESS;

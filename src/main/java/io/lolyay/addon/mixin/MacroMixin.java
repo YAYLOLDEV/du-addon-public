@@ -1,19 +1,14 @@
 package io.lolyay.addon.mixin;
 
-import io.lolyay.addon.modules.GuiMacros;
-import meteordevelopment.meteorclient.settings.Setting;
+import io.lolyay.addon.modules.settingsmodules.GuiMacros;
 import meteordevelopment.meteorclient.systems.macros.Macro;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.utils.misc.Keybind;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @Mixin(Macro.class)
 public abstract class MacroMixin {

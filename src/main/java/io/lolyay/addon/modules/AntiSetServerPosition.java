@@ -2,6 +2,7 @@ package io.lolyay.addon.modules;
 
 import io.lolyay.addon.DupersUnitedPublicAddon;
 import io.lolyay.addon.utils.PacketUtils;
+import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -35,8 +36,18 @@ public class AntiSetServerPosition extends Module {
             .build()
     );
 
+    private final Setting<Boolean> turnoffOnDisconnect = sgGeneral.add(
+        new BoolSetting.Builder()
+            .name("disable-on-leave")
+            .description("Turn off AntiSetServerPosition when you disconnects.")
+            .defaultValue(true)
+            .build()
+    );
+
     public static boolean waitingForDesyncPacket = false;
     private ScheduledFuture<?> desyncResetTask;
+
+
 
     public AntiSetServerPosition() {
         super(
@@ -45,6 +56,11 @@ public class AntiSetServerPosition extends Module {
             "Intercepts server position corrections (e.g. .tp, .forwardclip, Super Reach).\n" +
                 "WARNING: Extremely detectable. Expect kick-loops or bans."
         );
+    }
+
+    @EventHandler
+    private void onGameLeft(GameLeftEvent event) {
+        if (turnoffOnDisconnect.get()) toggle();
     }
 
     @EventHandler
