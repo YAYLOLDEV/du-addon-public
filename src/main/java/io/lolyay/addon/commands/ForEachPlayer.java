@@ -5,6 +5,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.command.CommandSource;
 
@@ -24,7 +25,7 @@ public class ForEachPlayer extends Command {
                         int i = 0;
                         for(PlayerListEntry player : mc.getNetworkHandler().getPlayerList()) {
                             if(player.getProfile() == null ||
-                            player.getLatency() == 0 ||
+                            (player.getLatency() == 0 && !MinecraftClient.getInstance().isInSingleplayer()) ||
                             player.getProfile().getProperties() == null ||
                             player.getProfile().getId().equals(UUID.fromString("00000000-0000-0000-0000-000000000000"))) continue;
                             String command = cmd
