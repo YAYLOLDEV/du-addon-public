@@ -3,9 +3,17 @@
   "package": "io.lolyay.addon.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "ExampleMixin"
+    "AbstractSignEditScreenMixin",
+    "ClientPlayNetworkHandlerMixin",
+    "HandledScreenScreenMixin",
+    "ShulkerBoxScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+    "ClientConfigurationNetworkHandlerMixin",
+    "MacroMixin",
+    "ServerCommandMixin"
+  ]
 }

@@ -1,14 +1,17 @@
 package io.lolyay.addon;
 
-import com.example.addon.commands.CommandExample;
-import com.example.addon.hud.HudExample;
-import com.example.addon.modules.ModuleExample;
+
 import com.mojang.logging.LogUtils;
+import io.lolyay.addon.commands.*;
+import io.lolyay.addon.commands.clickslot.ClickSlotCommand;
+import io.lolyay.addon.modules.*;
+import io.lolyay.addon.modules.crashes.BundleCrash;
+import io.lolyay.addon.modules.dupes.PaperBookDupe;
+import io.lolyay.addon.modules.dupes.ShulkerDupe;
+import io.lolyay.addon.modules.dupes.TradeDupe;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.commands.Commands;
-import meteordevelopment.meteorclient.systems.hud.Hud;
-import meteordevelopment.meteorclient.systems.hud.HudGroup;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import org.slf4j.Logger;
@@ -21,14 +24,8 @@ public class DupersUnitedPublicAddon extends MeteorAddon {
     public void onInitialize() {
         LOG.info("Initializing DupersUnited Public Addon");
 
-        // Modules
-      //  Modules.get().add(new ModuleExample());
-
-        // Commands
-        //Commands.add(new CommandExample());
-
-        // HUD
-        //Hud.get().register(HudExample.INFO);
+        initModules();
+        initCommands();
     }
 
     @Override
@@ -43,6 +40,36 @@ public class DupersUnitedPublicAddon extends MeteorAddon {
 
     @Override
     public GithubRepo getRepo() {
-        return new GithubRepo("du-addon-public", "meteor-addon-template");
+        return new GithubRepo("YAYLOLDEV", "du-addon-public");
+    }
+
+
+    private void initModules() {
+        //Util
+        Modules.get().add(new GuiMacros());
+        Modules.get().add(new GuiSlotNbt());
+        Modules.get().add(new SuperReach());
+
+        //Exploits
+        Modules.get().add(new AttributeSwap());
+        Modules.get().add(new PacketDelay());
+        Modules.get().add(new AntiSetServerPosition());
+
+        //Crashes
+        Modules.get().add(new BundleCrash());
+
+        //Dupes
+        Modules.get().add(new PaperBookDupe());
+        Modules.get().add(new ShulkerDupe());
+        Modules.get().add(new TradeDupe());
+    }
+
+    private void initCommands() {
+        Commands.add(new ForwardClipCommand());
+        Commands.add(new TpCommand());
+        Commands.add(new ClickSlotCommand());
+        Commands.add(new WaitCommand());
+        Commands.add(new RepeatCommand());
+        Commands.add(new ForEachPlayer());
     }
 }

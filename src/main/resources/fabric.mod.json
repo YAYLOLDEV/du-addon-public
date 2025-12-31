@@ -5,8 +5,7 @@
   "name": "DupersUnited Public Addon",
   "description": "An addon to dupe with",
   "authors": [
-    "DupersUnited",
-    "LOLYAY"
+    "DupersUnited"
   ],
   "icon": "assets/dupersunited-public-addon/icon.png",
   "environment": "client",
@@ -19,7 +18,7 @@
     "dupersunited-public-addon.mixins.json"
   ],
   "custom": {
-    "meteor-client:color": "225,25,25"
+    "meteor-client:color": "0,138,207"
   },
   "depends": {
     "java": ">=21",
