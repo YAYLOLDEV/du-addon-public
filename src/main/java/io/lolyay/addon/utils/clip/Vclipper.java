@@ -1,5 +1,6 @@
-package io.lolyay.addon.utils;
+package io.lolyay.addon.utils.clip;
 
+import io.lolyay.addon.utils.PacketUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;

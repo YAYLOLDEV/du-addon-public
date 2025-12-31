@@ -111,7 +111,6 @@ public class SuperReach extends Module {
             .sliderMax(60)
             .visible(() -> finalFix.get() && !waitforDesyncPacket.get())
             .build());
-    /* ---------------- Runtime State ---------------- */
 
     private Entity target;
     private Vec3d startPos;
@@ -133,7 +132,6 @@ public class SuperReach extends Module {
         INSTANCE = this;
     }
 
-    /* ---------------- Input ---------------- */
 
     @EventHandler
     private void onLeftClick(MouseButtonEvent event) {
@@ -164,7 +162,6 @@ public class SuperReach extends Module {
         }
     }
 
-    /* ---------------- Core Logic ---------------- */
     public void movePlayerSmoothly(Vec3d from, Vec3d target, Runnable onFinish) {
         ArrayList<Vec3d> steps = calculateSteps(from, target);
         if (steps.isEmpty()) {
@@ -241,7 +238,6 @@ public class SuperReach extends Module {
         }
     }
 
-    /* ---------------- Movement ---------------- */
 
     public void moveSmoothly(Vec3d from, Vec3d to, Runnable callback) {
         ArrayList<Vec3d> steps = calculateSteps(from, to);
@@ -276,7 +272,6 @@ public class SuperReach extends Module {
         return steps;
     }
 
-    /* ---------------- Desync Fix ---------------- */
 
     private void scheduleHeightFix() {
         EXECUTOR.schedule(this::doHeightFix, heightFixDelayMs.get(), TimeUnit.MILLISECONDS);
@@ -291,7 +286,6 @@ public class SuperReach extends Module {
         });
     }
 
-    /* ---------------- Utils ---------------- */
 
     private List<Entity> getNearbyEntities(World world, Vec3d pos) {
         Box box = new Box(

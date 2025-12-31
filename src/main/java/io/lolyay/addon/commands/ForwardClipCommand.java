@@ -2,9 +2,9 @@ package io.lolyay.addon.commands;
 
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import io.lolyay.addon.utils.Hclipper;
-import io.lolyay.addon.utils.TickTimer;
-import io.lolyay.addon.utils.Vclipper;
+import io.lolyay.addon.utils.clip.Hclipper;
+import io.lolyay.addon.utils.timer.TickTimer;
+import io.lolyay.addon.utils.clip.Vclipper;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.AntiVoid;

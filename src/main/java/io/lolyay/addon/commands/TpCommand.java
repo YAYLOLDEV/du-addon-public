@@ -2,21 +2,18 @@ package io.lolyay.addon.commands;
 
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import io.lolyay.addon.utils.Hclipper;
-import io.lolyay.addon.utils.TickTimer;
-import io.lolyay.addon.utils.Vclipper;
+import io.lolyay.addon.utils.clip.Hclipper;
+import io.lolyay.addon.utils.timer.TickTimer;
+import io.lolyay.addon.utils.clip.Vclipper;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.commands.Command;
-import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.AntiVoid;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
-import meteordevelopment.orbit.EventHandler;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
 
 public class TpCommand extends Command {

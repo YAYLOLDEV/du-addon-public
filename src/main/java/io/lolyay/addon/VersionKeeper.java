@@ -19,7 +19,5 @@ public class VersionKeeper {
             }
             resourcePacks.add(knownPack.namespace() + ":" + knownPack.id() + " (v" + knownPack.version() + ")");
         }
-
     }
-
 }

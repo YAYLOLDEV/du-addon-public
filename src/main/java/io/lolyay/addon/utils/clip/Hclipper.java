@@ -1,18 +1,13 @@
-package io.lolyay.addon.utils;
+package io.lolyay.addon.utils.clip;
 
+import io.lolyay.addon.utils.PacketUtils;
+import io.lolyay.addon.utils.timer.TickTimer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.c2s.play.VehicleMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
 
-/**
- * Horizontal clipper - similar to Vclipper but for horizontal movement.
- * Sends stationary packets first, then the final movement packet, all in the
- * same tick.
- * Max 10 blocks per packet, max 20 packets = max 200 blocks per clip per tick.
- * For distances > 200 blocks, splits into 200-block chunks with 1 tick delay
- * between each.
- */
+
 public class Hclipper {
     private static final double MAX_DISTANCE_PER_PACKET = 8;
     private static final int MAX_PACKETS = 20;
@@ -47,7 +42,6 @@ public class Hclipper {
 
     /**
      * Clip horizontally from a specific position to another position.
-     * Y coordinate is preserved from 'from' position.
      */
     public static void clipFromTo(Vec3d from, Vec3d to) {
         clipFromToWithCallback(from, to, null);
@@ -55,9 +49,6 @@ public class Hclipper {
 
     /**
      * Clip horizontally from a specific position to another position with callback.
-     * Y coordinate is preserved from 'from' position.
-     * For distances > 200 blocks, splits into chunks with 1 tick delay between
-     * each.
      */
     public static void clipFromToWithCallback(Vec3d from, Vec3d to, Runnable onFinish) {
         MinecraftClient mc = MinecraftClient.getInstance();
@@ -69,13 +60,11 @@ public class Hclipper {
         double distance = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
 
         if (distance <= MAX_DISTANCE_PER_TICK) {
-            // Distance fits in one tick, send immediately
             sendClipPackets(from, to);
             if (onFinish != null) {
                 onFinish.run();
             }
         } else {
-            // Distance exceeds 200 blocks, split into chunks with 1 tick delay
             scheduleChunkedClip(from, to, onFinish);
         }
     }
@@ -100,7 +89,6 @@ public class Hclipper {
 
         int totalChunks = (int) Math.ceil(totalDistance / MAX_DISTANCE_PER_TICK);
 
-        // Send first chunk immediately (no delay) - use current Y
         double currentY = mc.player.getY();
         Vec3d chunkFrom = new Vec3d(mc.player.getX(), currentY, mc.player.getZ());
         double chunkDistance = Math.min(MAX_DISTANCE_PER_TICK, totalDistance);
@@ -110,8 +98,6 @@ public class Hclipper {
                 chunkFrom.z + dirZ * chunkDistance);
         sendClipPackets(chunkFrom, chunkTo);
 
-        // Schedule remaining chunks - each uses player's current position at execution
-        // time
         final double finalTargetX = to.x;
         final double finalTargetZ = to.z;
         final int chunksRemaining = totalChunks - 1;
@@ -136,29 +122,24 @@ public class Hclipper {
             if (mc.player == null)
                 return;
 
-            // Get player's CURRENT position at execution time
             double currentX = mc.player.getX();
             double currentY = mc.player.getY();
             double currentZ = mc.player.getZ();
 
-            // Calculate remaining distance to target
             double remainingDeltaX = targetX - currentX;
             double remainingDeltaZ = targetZ - currentZ;
             double remainingDistance = Math.sqrt(remainingDeltaX * remainingDeltaX + remainingDeltaZ * remainingDeltaZ);
 
-            // Calculate this chunk's movement (up to MAX_DISTANCE_PER_TICK)
             double chunkDistance = Math.min(MAX_DISTANCE_PER_TICK, remainingDistance);
 
-            // Use the original direction, not recalculated (to maintain straight line)
             Vec3d chunkFrom = new Vec3d(currentX, currentY, currentZ);
             Vec3d chunkTo = new Vec3d(
                     currentX + dirX * chunkDistance,
-                    currentY, // Use CURRENT Y, not pre-calculated
+                    currentY,
                     currentZ + dirZ * chunkDistance);
 
             sendClipPackets(chunkFrom, chunkTo);
 
-            // Schedule next chunk or call callback
             boolean isLastChunk = (chunkIndex == totalRemainingChunks);
             if (isLastChunk) {
                 if (onFinish != null) {
@@ -172,7 +153,6 @@ public class Hclipper {
 
     /**
      * Send clip packets for a single chunk (up to MAX_DISTANCE_PER_TICK blocks).
-     * Sends stationary packets first, then the final movement packet.
      */
     private static void sendClipPackets(Vec3d from, Vec3d to) {
         MinecraftClient mc = MinecraftClient.getInstance();
@@ -201,7 +181,7 @@ public class Hclipper {
             mc.player.getVehicle().setPosition(to.x, from.y, to.z);
             PacketUtils.sendPacketImmediate(VehicleMoveC2SPacket.fromVehicle(mc.player.getVehicle()));
         } else {
-            // Player mode - send stationary packets first, then the movement packet
+            // Player mode
             for (int i = 0; i < (packetsRequired - 1); i++) {
                 PacketUtils.sendPacketImmediate(
                         new PlayerMoveC2SPacket.OnGroundOnly(false, mc.player.horizontalCollision));
@@ -236,8 +216,6 @@ public class Hclipper {
 
     /**
      * Move player horizontally with callback when done.
-     * For distances <= 200 blocks, sends all packets immediately in same tick.
-     * For distances > 200 blocks, splits into 200-block chunks with 1 tick delay.
      *
      * @param from     starting position
      * @param to       target position (Y is taken from 'from')

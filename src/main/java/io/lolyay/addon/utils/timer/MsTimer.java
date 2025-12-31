@@ -1,4 +1,4 @@
-package io.lolyay.addon.utils;
+package io.lolyay.addon.utils.timer;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;

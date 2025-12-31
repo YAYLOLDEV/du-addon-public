@@ -1,4 +1,4 @@
-package io.lolyay.addon.utils;
+package io.lolyay.addon.utils.timer;
 
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.utils.PostInit;
