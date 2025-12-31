@@ -51,7 +51,7 @@ public abstract class HandledScreenScreenMixin<T extends ScreenHandler> extends 
                     int x = Integer.parseInt(txt.getText());
                     NbtElement element = screenHandler.getInventory().getStack(x).toNbt(mc.player.getRegistryManager());
                     ChatUtils.sendMsg(NbtHelper.toPrettyPrintedText(element));
-                    mc.keyboard.setClipboard(NbtHelper.toPrettyPrintedText(element).getLiteralString());
+                    mc.keyboard.setClipboard(NbtHelper.toPrettyPrintedText(element).getString());
                 } catch (NumberFormatException e) {
                     ChatUtils.error("Invalid slot ID: " + txt.getText());
                 }
