@@ -17,4 +17,6 @@ public abstract class MacroMixin {
     private Screen redirect(MinecraftClient mc) {
         return Modules.get().isActive(GuiMacros.class) ? null : mc.currentScreen;
     }
+
+
 }

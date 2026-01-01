@@ -19,9 +19,6 @@ repositories {
     }
 }
 
-loom {
-    accessWidenerPath = file("src/main/resources/dupersunited-public-addon.accesswidener")
-}
 
 dependencies {
     // Fabric

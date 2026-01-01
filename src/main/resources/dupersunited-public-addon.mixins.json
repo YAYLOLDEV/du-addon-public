@@ -11,8 +11,10 @@
   "injectors": {
     "defaultRequire": 1
   },
+  "mixinPriority": 9999,
+  "priority": 9999,
   "mixins": [
-    "AsmMixin",
+    "BookUpdateC2SPacketMixin",
     "ClientConfigurationNetworkHandlerMixin",
     "MacroMixin",
     "ServerCommandMixin"
