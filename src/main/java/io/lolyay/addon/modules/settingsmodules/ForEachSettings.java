@@ -14,13 +14,13 @@ public class ForEachSettings extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
     public final Setting<Boolean> self = sgGeneral.add(new BoolSetting.Builder()
-            .name("Mine")
+            .name("include-self")
             .description("Include yourself in the foreach loop")
             .defaultValue(false)
             .build());
 
     public final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-            .name("Delay")
+            .name("delay")
             .description("Delay between each Command")
             .defaultValue(0)
             .sliderRange(0, 20000)
