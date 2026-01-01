@@ -74,6 +74,8 @@ public class DupersUnitedPublicAddon extends MeteorAddon {
         Commands.add(new ClickSlotCommand());
         Commands.add(new WaitCommand());
         Commands.add(new RepeatCommand());
+        Commands.add(new RepeatDelayCommand());
         Commands.add(new ForEachPlayer());
+
     }
 }
