@@ -19,7 +19,7 @@ public class PacketDelay extends Module {
     SettingGroup sgGeneral = this.settings.getDefaultGroup();
     private final Queue<Packet<?>> packets = new LinkedList<>();
     private final Setting<Set<Class<? extends Packet<?>>>> c2sPackets = sgGeneral.add(new PacketListSetting.Builder()
-        .name("C2S-packets")
+        .name("packets")
         .description("Client-to-server packets to delay.")
         .filter((aClass) -> PacketUtils.getC2SPackets().contains(aClass))
         .build()

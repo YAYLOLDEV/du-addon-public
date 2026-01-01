@@ -16,16 +16,18 @@ public class RepeatCommand extends Command {
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(argument("times", IntegerArgumentType.integer(1))
-            .then(argument("cmd", StringArgumentType.greedyString())
-                .executes((context) -> {
+               .then(argument("cmd", StringArgumentType.greedyString())
+               .executes((context) -> {
 
                    int times = context.getArgument("times", Integer.class);
                    String cmd = context.getArgument("cmd", String.class);
-                    MeteorExecutor.execute(() -> {
+
+                   MeteorExecutor.execute(() -> {
                         for(int i = 0; i < times; i++) {
                             ChatUtils.sendPlayerMsg(cmd);
                         }
                     });
+
                    return SINGLE_SUCCESS;
                })));
     }

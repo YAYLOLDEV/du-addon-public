@@ -31,24 +31,23 @@ public abstract class HandledScreenScreenMixin<T extends ScreenHandler> extends 
         super(title);
     }
 
-    @Inject(method = "init", at=@At("TAIL"))
+    @Inject(method = "init", at= @At("TAIL"))
     public void init(CallbackInfo ci) {
         if(!Modules.get().isActive(GuiSlotNbt.class)) return;
         if(handler instanceof GenericContainerScreenHandler screenHandler) {
-            TextFieldWidget widget = new EnterableTextField(textRenderer, 50, 20, Text.empty(),txt -> {
-                try {
-                    int x = Integer.parseInt(txt.getText());
-                    NbtElement element = screenHandler.getInventory().getStack(x).toNbt(mc.player.getRegistryManager());
-                    ChatUtils.sendMsg(NbtHelper.toPrettyPrintedText(element));
-                    mc.keyboard.setClipboard(NbtHelper.toPrettyPrintedText(element).getString());
-                } catch (NumberFormatException e) {
-                    ChatUtils.error("Invalid slot ID: " + txt.getText());
-                }
-            });
-            widget.setX(10);
-            widget.setY(10);
-            widget.setPlaceholder(Text.literal("Slot ID"));
-            addDrawableChild(widget);
+            addDrawableChild(EnterableTextField.builder(textRenderer)
+                .dimensions(50, 20, 10, 10)
+                .placeholder(Text.literal("Slot ID"))
+                .onEnter(txt -> {
+                    try {
+                        int x = Integer.parseInt(txt.getText());
+                        NbtElement element = screenHandler.getInventory().getStack(x).toNbt(mc.player.getRegistryManager());
+                        ChatUtils.sendMsg(NbtHelper.toPrettyPrintedText(element));
+                        mc.keyboard.setClipboard(NbtHelper.toPrettyPrintedText(element).getString());
+                    } catch (NumberFormatException e) {
+                        ChatUtils.error("Invalid slot ID: " + txt.getText());
+                    }
+                }).build());
         }
 
     }

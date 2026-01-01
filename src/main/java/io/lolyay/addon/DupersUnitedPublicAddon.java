@@ -2,9 +2,12 @@ package io.lolyay.addon;
 
 
 import com.mojang.logging.LogUtils;
+import io.lolyay.addon.asm.BookPacketTransformer;
 import io.lolyay.addon.commands.*;
 import io.lolyay.addon.commands.clickslot.ClickSlotCommand;
 import io.lolyay.addon.modules.*;
+import io.lolyay.addon.modules.broken.AntiSetServerPosition;
+import io.lolyay.addon.modules.broken.SuperReach;
 import io.lolyay.addon.modules.crashes.BundleCrash;
 import io.lolyay.addon.modules.dupes.PaperBookDupe;
 import io.lolyay.addon.modules.dupes.ShulkerDupe;
@@ -14,6 +17,7 @@ import io.lolyay.addon.modules.settingsmodules.GuiMacros;
 import io.lolyay.addon.modules.settingsmodules.GuiSlotNbt;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
+import meteordevelopment.meteorclient.asm.Asm;
 import meteordevelopment.meteorclient.commands.Commands;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Modules;

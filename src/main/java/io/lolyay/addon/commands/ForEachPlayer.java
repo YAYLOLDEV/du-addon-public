@@ -23,7 +23,9 @@ public class ForEachPlayer extends Command {
         builder.then(argument("cmd", StringArgumentType.greedyString())
                 .executes((context) -> {
                    String cmd = context.getArgument("cmd", String.class);
-                    MeteorExecutor.execute(() -> {
+                   assert mc.player != null; // Should never happen, how can you run a command and not be connected?
+                   assert mc.getNetworkHandler() != null;
+                   MeteorExecutor.execute(() -> {
                         ForEachSettings settings = Modules.get().get(ForEachSettings.class);
                         int i = 0;
                         for(PlayerListEntry player : mc.getNetworkHandler().getPlayerList()) {
@@ -35,10 +37,10 @@ public class ForEachPlayer extends Command {
                                 continue;
                             String command = cmd
                                 .replace("%INDEX%", String.valueOf(i++))
-                                .replace("%PLAYER%", player.getProfile().getName())
-                                .replace("%PLAYER_UUID%", player.getProfile().getName())
                                 .replace("%index%", String.valueOf(i++))
+                                .replace("%PLAYER%", player.getProfile().getName())
                                 .replace("%player%", player.getProfile().getName())
+                                .replace("%PLAYER_UUID%", player.getProfile().getName())
                                 .replace("%player_uuid%", player.getProfile().getName());
                             ChatUtils.sendPlayerMsg(command);
                             try {

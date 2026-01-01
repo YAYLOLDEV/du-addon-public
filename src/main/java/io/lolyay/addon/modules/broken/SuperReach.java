@@ -1,4 +1,4 @@
-package io.lolyay.addon.modules;
+package io.lolyay.addon.modules.broken;
 
 import io.lolyay.addon.DupersUnitedPublicAddon;
 import io.lolyay.addon.utils.PacketUtils;
@@ -6,22 +6,17 @@ import io.lolyay.addon.utils.RayCastUtils;
 import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -31,7 +26,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static io.lolyay.addon.utils.PacketUtils.sendEntityHitPacket;
-import static io.lolyay.addon.modules.AntiSetServerPosition.*;
+import static io.lolyay.addon.modules.broken.AntiSetServerPosition.*;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
 
 // This only works 70% of the time, there are WAY BETTER WAYS of implementing this, if you have time, please rewrite this module

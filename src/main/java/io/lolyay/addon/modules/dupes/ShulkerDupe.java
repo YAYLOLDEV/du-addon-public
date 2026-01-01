@@ -67,7 +67,7 @@ public class ShulkerDupe extends Module {
                     if (mc.player.getInventory().selectedSlot > 8) mc.player.getInventory().setSelectedSlot(0);
                 }
             }
-        } else if (!shouldDupe | !shouldDupeAll) {
+        } else {
             if (!Modules.get().get(Timer.class).isActive() && wasTimerOn) {
                 wasTimerOn = false;
                 Modules.get().get(Timer.class).toggle();

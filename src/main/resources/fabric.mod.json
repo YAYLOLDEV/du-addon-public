@@ -24,5 +24,6 @@
     "java": ">=21",
     "minecraft": ["${mc_version}"],
     "meteor-client": "*"
-  }
+  },
+  "accessWidener": "dupersunited-public-addon.accesswidener"
 }

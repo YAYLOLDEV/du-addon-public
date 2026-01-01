@@ -49,7 +49,7 @@ public class BundleCrash extends Module {
         }
         ItemStack probablyBundle = mc.player.getInventory().getStack(mc.player.getInventory().selectedSlot);
         if (probablyBundle.getRegistryEntry().getIdAsString().contains("bundle")) {
-            ChatUtils.info("Crashing the server with a bundle packet");
+            ChatUtils.info("Sending Packets...");
             doCrash(mc.player.getInventory().selectedSlot);
         }
         else {
@@ -63,7 +63,7 @@ public class BundleCrash extends Module {
 
         PacketUtils.sendBundleSelectPacket(newId, slotid.get());
         PacketUtils.sendHandInteractPacket(Hand.MAIN_HAND);
-        ChatUtils.info("Trying to crash Server (on slot " + slotid.get() + ")!");
+        ChatUtils.info("Trying to crash the Server (on slot " + slotid.get() + ")!");
     }
 
 

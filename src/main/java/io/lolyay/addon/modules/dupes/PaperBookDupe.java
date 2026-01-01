@@ -47,7 +47,7 @@ public class PaperBookDupe extends Module {
 
         if(dropItems.get()) dropItems();
 
-        PacketUtils.sendEditBookPacket(mc.player.getInventory().getSlotWithStack(currentItem), List.of("DupersUnited?"),"NeedToHave42CharsInHereSoLetMeTellYouStory");
+        PacketUtils.sendEditBookPacket(mc.player.getInventory().getSlotWithStack(currentItem), List.of("DupersUnited?"),"NeedToHave42CharsInHereHAHA123456789012345");
         mc.disconnect(new DisconnectedScreen(mc.currentScreen, Text.of("Duped?"),Text.of("Hopefully")));
         toggle();
     }

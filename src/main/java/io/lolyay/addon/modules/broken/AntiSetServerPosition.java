@@ -1,4 +1,4 @@
-package io.lolyay.addon.modules;
+package io.lolyay.addon.modules.broken;
 
 import io.lolyay.addon.DupersUnitedPublicAddon;
 import io.lolyay.addon.utils.PacketUtils;
@@ -15,7 +15,7 @@ import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static io.lolyay.addon.modules.SuperReach.*;
+import static io.lolyay.addon.modules.broken.SuperReach.*;
 
 public class AntiSetServerPosition extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();

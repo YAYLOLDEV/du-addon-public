@@ -16,18 +16,20 @@ public class RepeatDelayCommand extends Command {
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(argument("ms", IntegerArgumentType.integer(1))
-            .then(argument("times", IntegerArgumentType.integer(1))
-            .then(argument("cmd", StringArgumentType.greedyString())
-                .executes((context) -> {
+               .then(argument("times", IntegerArgumentType.integer(1))
+               .then(argument("cmd", StringArgumentType.greedyString())
+               .executes((context) -> {
 
                    int ms = context.getArgument("ms", Integer.class);
                    int times = context.getArgument("times", Integer.class);
                    String cmd = context.getArgument("cmd", String.class);
-                    MeteorExecutor.execute(() -> {
+
+                   MeteorExecutor.execute(() -> {
                         for(int i = 0; i < times; i++) {
                             ChatUtils.sendPlayerMsg(cmd);
+
                             try {
-                                Thread.sleep(ms);
+                                Thread.sleep(ms); //TODO: This blocks a thread. We could use a scheduled executor or a queue instead
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
