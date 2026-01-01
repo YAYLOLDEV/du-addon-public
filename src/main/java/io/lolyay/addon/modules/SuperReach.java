@@ -1,5 +1,6 @@
 package io.lolyay.addon.modules;
 
+import io.lolyay.addon.DupersUnitedPublicAddon;
 import io.lolyay.addon.utils.PacketUtils;
 import io.lolyay.addon.utils.RayCastUtils;
 import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
@@ -128,7 +129,7 @@ public class SuperReach extends Module {
     public static SuperReach INSTANCE;
 
     public SuperReach() {
-        super(Categories.Player, "super-reach", "Theoretically infinite reach.");
+        super(DupersUnitedPublicAddon.CATEGORY, "super-reach", "Theoretically infinite reach. WARNING: This WILL flag you server side, is VERY UNSTABLE, and may get you kicked / Banned. AntiServerTp is recommended with this Module. (Else this probably wont work)");
         INSTANCE = this;
     }
 
