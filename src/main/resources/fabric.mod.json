@@ -12,6 +12,9 @@
   "entrypoints": {
     "meteor": [
       "io.lolyay.addon.DupersUnitedPublicAddon"
+    ],
+    "preLaunch": [
+      "io.lolyay.addon.PrelaunchAsmApplier"
     ]
   },
   "mixins": [

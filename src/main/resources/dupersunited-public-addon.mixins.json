@@ -6,6 +6,7 @@
     "AbstractSignEditScreenMixin",
     "ClientPlayNetworkHandlerMixin",
     "HandledScreenScreenMixin",
+    "PacketCodecsMixin",
     "ShulkerBoxScreenMixin"
   ],
   "injectors": {

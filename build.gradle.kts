@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.loom
+
 plugins {
     id("fabric-loom") version "1.9-SNAPSHOT"
 }
@@ -18,7 +20,6 @@ repositories {
         url = uri("https://maven.meteordev.org/snapshots")
     }
 }
-
 
 dependencies {
     // Fabric
