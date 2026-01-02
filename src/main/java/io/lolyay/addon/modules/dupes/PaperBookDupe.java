@@ -48,13 +48,13 @@ public class PaperBookDupe extends Module {
         if(dropItems.get()) dropItems();
 
         PacketUtils.sendEditBookPacket(mc.player.getInventory().getSlotWithStack(currentItem), List.of("DupersUnited?"),"NeedToHave42CharsInHereHAHA123456789012345");
-        mc.disconnect(new DisconnectedScreen(mc.currentScreen, Text.of("Duped?"),Text.of("Hopefully")));
+        mc.disconnect(Text.of("Please reconnect."));
         toggle();
     }
 
     private void dropItems(){
         if(!dropItems.get()) return;
-        for (ItemStack item : mc.player.getInventory().main) {
+        for (ItemStack item : mc.player.getInventory().getMainStacks()) {
             if(item.isEmpty() || item.getItem() == null) continue;
             InvUtils.drop().slot(mc.player.getInventory().getSlotWithStack(item));
         }

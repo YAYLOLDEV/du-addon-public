@@ -66,13 +66,13 @@ public class AttributeSwap extends Module {
     private void onAttack(AttackEntityEvent event) {
         if (mc.player == null || mc.world == null) return;
         if (swapBack.get()) {
-            prevSlot = mc.player.getInventory().selectedSlot;
+            prevSlot = mc.player.getInventory().getSelectedSlot();
         }
         if (shouldBreakShield.get()) {
             if (event.entity instanceof PlayerEntity player) {
                 if (player.isBlocking()) {
                     for (int i = 0; i < 9; i++) {
-                        ItemStack stack = mc.player.getInventory().main.get(i);
+                        ItemStack stack = mc.player.getInventory().getStack(i);
                         if (stack.getItem() instanceof AxeItem) {
                             InvUtils.swap(i, false);
                             break;

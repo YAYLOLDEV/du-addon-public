@@ -47,10 +47,10 @@ public class BundleCrash extends Module {
             toggle();
             return;
         }
-        ItemStack probablyBundle = mc.player.getInventory().getStack(mc.player.getInventory().selectedSlot);
+        ItemStack probablyBundle = mc.player.getInventory().getStack(mc.player.getInventory().getSelectedSlot());
         if (probablyBundle.getRegistryEntry().getIdAsString().contains("bundle")) {
             ChatUtils.info("Sending Packets...");
-            doCrash(mc.player.getInventory().selectedSlot);
+            doCrash(mc.player.getInventory().getSelectedSlot());
         }
         else {
             ChatUtils.error("You need to be holding a bundle!");

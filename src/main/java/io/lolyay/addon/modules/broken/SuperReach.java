@@ -1,9 +1,9 @@
 package io.lolyay.addon.modules.broken;
 
 import io.lolyay.addon.DupersUnitedPublicAddon;
+import io.lolyay.addon.events.MouseButtonEvent;
 import io.lolyay.addon.utils.PacketUtils;
 import io.lolyay.addon.utils.RayCastUtils;
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -142,17 +142,17 @@ public class SuperReach extends Module {
         if (!canAct && !waitforDesyncPacket.get())
             return;
 
-        HitResult hit = RayCastUtils.raycastCrosshair(mc.cameraEntity, reach.get(), 1.0F);
+        HitResult hit = RayCastUtils.raycastCrosshair(mc.getCameraEntity(), reach.get(), 1.0F);
         if (hit.getType() == HitResult.Type.MISS)
             return;
 
         if (hit instanceof EntityHitResult ehr) {
-            attemptHit(ehr.getEntity().getPos(), ehr.getEntity());
+            attemptHit(ehr.getEntity().getEntityPos(), ehr.getEntity());
         } else {
             for (Entity e : getNearbyEntities(mc.world, hit.getPos())) {
                 if (!e.isAttackable())
                     continue;
-                attemptHit(e.getPos(), e);
+                attemptHit(e.getEntityPos(), e);
                 break;
             }
         }
@@ -175,17 +175,17 @@ public class SuperReach extends Module {
     }
 
     private void attemptHit(Vec3d pos, Entity entity) {
-        if (pos.distanceTo(mc.player.getPos()) < 3)
+        if (pos.distanceTo(mc.player.getEntityPos()) < 3)
             return;
 
-        ArrayList<Vec3d> steps = calculateSteps(mc.player.getPos(), pos);
+        ArrayList<Vec3d> steps = calculateSteps(mc.player.getEntityPos(), pos);
         if (steps == null) {
             ChatUtils.error("Unreachable target.");
             return;
         }
 
         target = entity;
-        startPos = mc.player.getPos();
+        startPos = mc.player.getEntityPos();
         targetPos = pos;
         currentTargetPos = pos;
 

@@ -84,7 +84,7 @@ public class AntiSetServerPosition extends Module {
 
         SuperReach.INSTANCE.movePlayerSmoothly(
             packet.change().position(),
-            onlyOnSuperReach.get() ? currentTargetPos : mc.player.getPos(),
+            onlyOnSuperReach.get() ? currentTargetPos : mc.player.getEntityPos(),
             () -> {
                 waitingForDesyncPacket = true;
 

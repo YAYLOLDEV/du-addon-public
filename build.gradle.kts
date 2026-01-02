@@ -1,7 +1,5 @@
-import org.gradle.kotlin.dsl.loom
-
 plugins {
-    id("fabric-loom") version "1.9-SNAPSHOT"
+    id("fabric-loom") version "1.12.7"
 }
 
 base {
@@ -50,9 +48,10 @@ tasks {
     }
 
     jar {
-        val licenseSuffix = project.base.archivesName.get()
+        inputs.property("archivesName", project.base.archivesName.get())
+
         from("LICENSE") {
-            rename { "${it}_${licenseSuffix}" }
+            rename { "${it}_${inputs.properties["archivesName"]}" }
         }
     }
 
@@ -64,5 +63,7 @@ tasks {
     withType<JavaCompile> {
         options.encoding = "UTF-8"
         options.release = 21
+        options.compilerArgs.add("-Xlint:deprecation")
+        options.compilerArgs.add("-Xlint:unchecked")
     }
 }

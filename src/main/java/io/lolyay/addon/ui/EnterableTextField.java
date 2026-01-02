@@ -2,6 +2,7 @@ package io.lolyay.addon.ui;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
 
 import java.util.function.Consumer;
@@ -22,10 +23,12 @@ public class EnterableTextField extends TextFieldWidget {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyInput input) {
+        int keyCode = input.getKeycode();
+        int scanCode = input.scancode();
         if((keyCode == 257 || scanCode == 28) && onEnter != null)
             onEnter.accept(this);
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(input);
     }
 
     public static Builder builder(TextRenderer textRenderer){
