@@ -48,7 +48,7 @@ public class PaperBookDupe extends Module {
         if(dropItems.get()) dropItems();
 
         PacketUtils.sendEditBookPacket(mc.player.getInventory().getSlotWithStack(currentItem), List.of("DupersUnited?"),"NeedToHave42CharsInHereHAHA123456789012345");
-        mc.disconnect(Text.of("Please reconnect."));
+        mc.disconnect(new DisconnectedScreen(mc.currentScreen, Text.of("Please Reconnect"), Text.of("If the dupe worked, your items should be still in your inventory.")), false);
         toggle();
     }
 

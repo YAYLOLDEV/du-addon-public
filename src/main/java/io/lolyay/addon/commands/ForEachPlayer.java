@@ -31,17 +31,17 @@ public class ForEachPlayer extends Command {
                         for(PlayerListEntry player : mc.getNetworkHandler().getPlayerList()) {
                             if(player.getProfile() == null ||
                             (player.getLatency() == 0 && !MinecraftClient.getInstance().isInSingleplayer()) ||
-                            player.getProfile().properties() == null ||
-                            player.getProfile().id().equals(UUID.fromString("00000000-0000-0000-0000-000000000000"))) continue;
-                            if(player.getProfile().name().equals(mc.player.getGameProfile().name()) && !settings.self.get())
+                            player.getProfile().getProperties() == null ||
+                            player.getProfile().getId().equals(UUID.fromString("00000000-0000-0000-0000-000000000000"))) continue;
+                            if(player.getProfile().getName().equals(mc.player.getGameProfile().getName()) && !settings.self.get())
                                 continue;
                             String command = cmd
                                 .replace("%INDEX%", String.valueOf(i++))
                                 .replace("%index%", String.valueOf(i++))
-                                .replace("%PLAYER%", player.getProfile().name())
-                                .replace("%player%", player.getProfile().name())
-                                .replace("%PLAYER_UUID%", player.getProfile().name())
-                                .replace("%player_uuid%", player.getProfile().name());
+                                .replace("%PLAYER%", player.getProfile().getName())
+                                .replace("%player%", player.getProfile().getName())
+                                .replace("%PLAYER_UUID%", player.getProfile().getName())
+                                .replace("%player_uuid%", player.getProfile().getName());
                             ChatUtils.sendPlayerMsg(command);
                             try {
                                 Thread.sleep(settings.delay.get());

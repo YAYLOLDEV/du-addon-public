@@ -35,7 +35,7 @@ public class Hclipper {
         if (mc.player == null)
             return;
 
-        Vec3d from = mc.player.getEntityPos();
+        Vec3d from = mc.player.getPos();
         Vec3d to = from.add(deltaX, 0, deltaZ);
         clipFromToWithCallback(from, to, onFinish);
     }
@@ -209,7 +209,7 @@ public class Hclipper {
         if (mc.player == null)
             return;
 
-        Vec3d from = mc.player.getEntityPos();
+        Vec3d from = mc.player.getPos();
         Vec3d to = new Vec3d(targetX, from.y, targetZ);
         clipFromToWithCallback(from, to, onFinish);
     }
