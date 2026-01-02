@@ -1,10 +1,10 @@
 plugins {
-    id("fabric-loom") version "1.12.7"
+    alias(libs.plugins.fabric.loom)
 }
 
 base {
-    archivesName = "${properties["archives_base_name"]}-${properties["minecraft_version"]}"
-    version = properties["mod_version"] as String
+    archivesName = "${properties["archives_base_name"]}-${libs.versions.minecraft.get()}"
+    version = libs.versions.mod.version.get()
     group = properties["maven_group"] as String
 }
 
@@ -21,12 +21,13 @@ repositories {
 
 dependencies {
     // Fabric
-    minecraft("com.mojang:minecraft:${properties["minecraft_version"] as String}")
-    mappings("net.fabricmc:yarn:${properties["yarn_mappings"] as String}:v2")
-    modImplementation("net.fabricmc:fabric-loader:${properties["loader_version"] as String}")
+    minecraft(libs.minecraft)
+    mappings(variantOf(libs.yarn) { classifier("v2") })
+    modImplementation(libs.fabric.loader)
 
     // Meteor
-    modImplementation("meteordevelopment:meteor-client:${properties["minecraft_version"] as String}-SNAPSHOT")
+    modImplementation(libs.meteor.client)
+
     compileOnly("org.projectlombok:lombok:1.18.30")
     annotationProcessor("org.projectlombok:lombok:1.18.30")
 }
@@ -35,7 +36,7 @@ tasks {
     processResources {
         val propertyMap = mapOf(
             "version" to project.version,
-            "mc_version" to project.property("minecraft_version"),
+            "mc_version" to libs.versions.minecraft.get()
         )
 
         inputs.properties(propertyMap)
