@@ -1,9 +1,8 @@
 package io.lolyay.addon;
 
-
 import com.mojang.logging.LogUtils;
 import io.lolyay.addon.commands.*;
-import io.lolyay.addon.commands.clickslot.ClickSlotCommand;
+import io.lolyay.addon.commands.ClickSlotCommand;
 import io.lolyay.addon.modules.*;
 import io.lolyay.addon.modules.broken.AntiSetServerPosition;
 import io.lolyay.addon.modules.broken.SuperReach;
@@ -27,7 +26,6 @@ public class DupersUnitedPublicAddon extends MeteorAddon {
 
     @Override
     public void onInitialize() {
-
         LOG.info("Initializing DupersUnited Public Addon");
 
         initModules();
@@ -78,7 +76,6 @@ public class DupersUnitedPublicAddon extends MeteorAddon {
         Commands.add(new WaitCommand());
         Commands.add(new RepeatCommand());
         Commands.add(new RepeatDelayCommand());
-        Commands.add(new ForEachPlayer());
-
+        Commands.add(new ForEachPlayerCommand());
     }
 }
