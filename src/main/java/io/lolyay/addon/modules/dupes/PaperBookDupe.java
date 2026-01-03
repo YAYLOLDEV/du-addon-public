@@ -5,12 +5,9 @@ import io.lolyay.addon.utils.PacketUtils;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.InvUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.DisconnectedScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -29,7 +26,7 @@ public class PaperBookDupe extends Module {
     );
 
     public PaperBookDupe() {
-        super(DupersUnitedPublicAddon.CATEGORY, "paper-book-dupe", "Dupes your inventory on Paper. Reconnect before duping to save your inventory.");
+        super(DupersUnitedPublicAddon.CATEGORY, "book-dupe", "Dupes your inventory on Paper. Reconnect before duping to save your inventory. Only works on servers under 1.21.1");
 
     }
     @Override
