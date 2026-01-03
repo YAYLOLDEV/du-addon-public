@@ -16,6 +16,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.util.math.Vec3d;
 
 //25% chance to end up at bedrock (:
+// This is due to the last Vclip (UP) failing sometimes, we may need to add an AutoClip System, to find the closest 2-block space to the target in a range of e.g., 3 blocks.
 public class ForwardClipCommand extends Command {
     private static final double MAX_VCLIP_DISTANCE = 200;
     private static final double BELOW_BEDROCK = -66;
@@ -40,6 +41,8 @@ public class ForwardClipCommand extends Command {
             double targetY = startY;
             double targetZ = startZ + forward.z * blocks;
 
+
+            //TODO: REMOVE, This does absolutely nothing.
             double originalGravity = mc.player.getAttributes().getValue(EntityAttributes.GRAVITY);
             mc.player.getAttributes().setBaseFrom(new AttributeContainer(
                     new DefaultAttributeContainer.Builder().add(EntityAttributes.GRAVITY, 0).build()));
@@ -100,6 +103,7 @@ public class ForwardClipCommand extends Command {
                     double playerY = mc.player.getY();
                     boolean stuckAtSafeHeight = Math.abs(playerY - BELOW_BEDROCK) < 5
                             || Math.abs(playerY - ABOVE_BUILD_LIMIT) < 5;
+                    //TODO: This May fuck up clips to bedrock, or close to height limit. We need to re-do this system or account for that.
 
                     if (stuckAtSafeHeight) {
                         ChatUtils.warning("Stuck at safe height, returning to start position...");
