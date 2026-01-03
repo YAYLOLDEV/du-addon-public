@@ -33,11 +33,11 @@ public class ForEachPlayerCommand extends Command {
                     for (PlayerListEntry player : mc.player.networkHandler.getPlayerList()) {
                         if (player.getProfile() == null
                                 || (player.getLatency() == 0 && !MinecraftClient.getInstance().isInSingleplayer())
-                                || player.getProfile().getProperties() == null
-                                || player.getProfile().getId().equals(UUID.fromString("00000000-0000-0000-0000-000000000000")))
+                                || player.getProfile().properties() == null
+                                || player.getProfile().id().equals(UUID.fromString("00000000-0000-0000-0000-000000000000")))
                             continue;
 
-                        if (player.getProfile().getName().equals(mc.player.getGameProfile().getName())
+                        if (player.getProfile().name().equals(mc.player.getGameProfile().name())
                                 && !settings.self.get())
                             continue;
 
@@ -45,8 +45,8 @@ public class ForEachPlayerCommand extends Command {
 
                         String command = cmd
                                 .replaceAll("(?i)%index%", String.valueOf(currentIndex))
-                                .replaceAll("(?i)%player%", player.getProfile().getName())
-                                .replaceAll("(?i)%player_uuid%", player.getProfile().getId().toString());
+                                .replaceAll("(?i)%player%", player.getProfile().name())
+                                .replaceAll("(?i)%player_uuid%", player.getProfile().id().toString());
 
                         MsTimer.schedule(
                             () -> ChatUtils.sendPlayerMsg(command),
