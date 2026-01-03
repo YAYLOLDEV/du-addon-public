@@ -52,7 +52,7 @@ public class PaperBookDupe extends Module {
 
     private void dropItems(){
         if(!dropItems.get()) return;
-        for (ItemStack item : mc.player.getInventory().getMainStacks()) {
+        for (ItemStack item : mc.player.getInventory().main) {
             if(item.isEmpty() || item.getItem() == null) continue;
             InvUtils.drop().slot(mc.player.getInventory().getSlotWithStack(item));
         }
