@@ -3,12 +3,13 @@ name: Release
 on:
     push:
         branches:
-            - '**'  # Matches every single branch (main, dev, feature/xyz, 1.21.4)
+            - '**'
+
 jobs:
     build-and-release:
         runs-on: ubuntu-latest
         permissions:
-            contents: write # Required to create releases
+            contents: write
 
         steps:
             -   name: Checkout code
@@ -20,13 +21,24 @@ jobs:
                     distribution: 'temurin'
                     java-version: '21'
 
+            -   name: Cache Gradle packages
+                uses: actions/cache@v4
+                with:
+                    path: |
+                        ~/.gradle/caches
+                        ~/.gradle/wrapper
+                        ~/.gradle/loom-cache
+                        .gradle/loom-cache
+                    key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/gradle.properties') }}
+                    restore-keys: |
+                        ${{ runner.os }}-gradle-
+
             -   name: Make gradlew executable
                 run: chmod +x gradlew
 
             -   name: Extract Properties
                 id: props
                 run: |
-                    # Grep the versions from gradle.properties
                     MOD_VER=$(grep "mod_version" gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
                     MC_VER=$(grep "minecraft_version" gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
 
@@ -37,17 +49,14 @@ jobs:
                     echo "Detected MC Version: $MC_VER"
 
             -   name: Build with Gradle
-                run: ./gradlew build
+                run: ./gradlew clean build
 
             -   name: Release to GitHub
                 uses: softprops/action-gh-release@v2
-                if: env.MOD_VERSION != '' # Safety check
+                if: startsWith(github.ref_name, '1.') && env.MOD_VERSION != ''
                 with:
-                    # This is the tag name. Since it is consistent across branches,
-                    # they will all upload to the SAME release.
                     tag_name: v${{ env.MOD_VERSION }}
                     name: "Release ${{ env.MOD_VERSION }}"
                     draft: false
                     prerelease: false
-                    # Take all jars from build/libs
                     files: build/libs/*.jar
