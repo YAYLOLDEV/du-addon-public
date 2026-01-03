@@ -15,7 +15,7 @@ public abstract class MacroMixin {
 
     @Redirect(method = "onAction(ZII)Z", at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;currentScreen:Lnet/minecraft/client/gui/screen/Screen;", opcode = Opcodes.GETFIELD))
     private Screen redirect(MinecraftClient mc) {
-        return Modules.get().isActive(GuiMacros.class) ? null : mc.currentScreen;
+        return (Modules.get().isActive(GuiMacros.class) && mc.player != null) ? null : mc.currentScreen;
     }
 
 
