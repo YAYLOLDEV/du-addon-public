@@ -6,7 +6,6 @@
     "AbstractSignEditScreenMixin",
     "ClientPlayNetworkHandlerMixin",
     "HandledScreenScreenMixin",
-    "MouseMixin",
     "PacketCodecsMixin",
     "ShulkerBoxScreenMixin"
   ],
