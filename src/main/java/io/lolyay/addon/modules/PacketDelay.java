@@ -1,13 +1,16 @@
 package io.lolyay.addon.modules;
 
+import io.lolyay.addon.ChannelKeeper;
 import io.lolyay.addon.DupersUnitedPublicAddon;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
+import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.PacketListSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.network.PacketUtils;
+import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.network.packet.Packet;
 
@@ -25,17 +28,26 @@ public class PacketDelay extends Module {
         .build()
     );
 
+    private final Setting<Boolean> logPacketNames = sgGeneral.add(new BoolSetting.Builder()
+        .name("log-packets-on-delay")
+        .description("Log the names of packets when delayed")
+        .defaultValue(false)
+        .build()
+    );
+
     public PacketDelay() {
         super(DupersUnitedPublicAddon.CATEGORY, "packet-delay", "Delays packets.");
     }
 
 
+    @Override
     public void onDeactivate() {
+        int i = packets.size();
         while (!packets.isEmpty()) {
             Packet<?> packet = packets.poll();
             mc.getNetworkHandler().sendPacket(packet);
         }
-
+        ChatUtils.info("Sent %d Packets!", i);
     }
 
     @Override
@@ -50,6 +62,8 @@ public class PacketDelay extends Module {
         if (c2sPackets.get().contains(clazz)) {
             packets.add(event.packet);
             event.cancel();
+            if(logPacketNames.get())
+                ChatUtils.info("Delaying Packet: " + event.packet.getPacketType());
         }
 
     }
