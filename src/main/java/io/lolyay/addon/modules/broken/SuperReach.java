@@ -1,9 +1,9 @@
 package io.lolyay.addon.modules.broken;
 
 import io.lolyay.addon.DupersUnitedPublicAddon;
-import io.lolyay.addon.events.MouseButtonEvent;
 import io.lolyay.addon.utils.PacketUtils;
 import io.lolyay.addon.utils.RayCastUtils;
+import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -142,13 +142,13 @@ public class SuperReach extends Module {
 
 
     @EventHandler
-    private void onLeftClick(MouseButtonEvent event) {
+    private void onLeftClick(MouseClickEvent event) {
         if (mc.currentScreen != null)
             return;
         if (event.action != KeyAction.Press)
             return;
-        if (event.button != GLFW_MOUSE_BUTTON_LEFT)
-            return;
+        if (event.button() != GLFW_MOUSE_BUTTON_LEFT)
+            return; // This click checking is bad
 
         boolean canAct = !returnNextTick && !waitingForFinalFix;
         if (!canAct && !waitForDesyncPacket.get())
