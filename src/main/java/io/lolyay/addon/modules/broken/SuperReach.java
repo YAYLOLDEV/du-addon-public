@@ -1,9 +1,9 @@
 package io.lolyay.addon.modules.broken;
 
 import io.lolyay.addon.DupersUnitedPublicAddon;
+import io.lolyay.addon.events.MouseButtonEvent;
 import io.lolyay.addon.utils.PacketUtils;
 import io.lolyay.addon.utils.RayCastUtils;
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -25,14 +25,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static io.lolyay.addon.modules.broken.AntiSetServerPosition.waitingForDesyncPacket;
 import static io.lolyay.addon.utils.PacketUtils.sendEntityHitPacket;
-import static io.lolyay.addon.modules.broken.AntiSetServerPosition.*;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
 
 // This only works 70% of the time, there are WAY BETTER WAYS of implementing this, if you have time, please rewrite this module
 public class SuperReach extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
+
+    // HOLY SETTINGS
     private final Setting<Double> reach = sgGeneral.add(new DoubleSetting.Builder()
             .name("reach")
             .description("The distance to add to your block reach.")
@@ -45,10 +47,18 @@ public class SuperReach extends Module {
             .description("The distance between the PlayerPosition Packets.")
             .sliderMax(5)
             .sliderMin(0.1)
-            .defaultValue(3)
+        .defaultValue(4)
             .build());
 
-    private final Setting<Boolean> waitforDesyncPacket = sgGeneral.add(new BoolSetting.Builder()
+    private final Setting<Double> aimbotSize = sgGeneral.add(new DoubleSetting.Builder()
+        .name("aimbot-range")
+        .description("This allows you to hit entities in a radius around your crosshair")
+        .sliderRange(1, 100)
+        .min(1)
+        .defaultValue(4)
+        .build());
+
+    private final Setting<Boolean> waitForDesyncPacket = sgGeneral.add(new BoolSetting.Builder()
             .name("wait-for-desync")
             .description(
                     "Should we wait for a Desync Packet? (This Disables Everything else Desync Related except the lower slider)")
@@ -60,17 +70,18 @@ public class SuperReach extends Module {
             .description("How long to wait for a Desync Packet")
             .sliderMax(1000)
             .sliderMin(1)
-            .visible(waitforDesyncPacket::get)
+        .visible(waitForDesyncPacket::get)
             .defaultValue(100)
             .onChanged(v -> publicDesyncWaitTime = v)
             .build());
 
+    // This is useless and never should be used.
     private final Setting<Integer> maxFixAttempts = sgGeneral.add(new IntSetting.Builder()
             .name("max-fix-attempts")
             .description("How often should we try Fixing the Desync (if there is one)")
             .sliderMax(30)
             .sliderMin(1)
-            .visible(() -> !waitforDesyncPacket.get())
+        .visible(() -> !waitForDesyncPacket.get())
             .defaultValue(4)
             .build());
 
@@ -79,7 +90,7 @@ public class SuperReach extends Module {
             .description("How for down should we try to fix Heightoffset")
             .sliderMax(320)
             .sliderMin(1)
-            .visible(() -> !waitforDesyncPacket.get())
+        .visible(() -> !waitForDesyncPacket.get())
             .defaultValue(100)
             .build());
 
@@ -88,7 +99,7 @@ public class SuperReach extends Module {
             .description("How long to wait before we try to fix Heightoffset")
             .sliderMax(1000)
             .sliderMin(1)
-            .visible(() -> !waitforDesyncPacket.get())
+        .visible(() -> !waitForDesyncPacket.get())
             .defaultValue(300)
             .build());
 
@@ -96,7 +107,7 @@ public class SuperReach extends Module {
             .name("final-desync-fix")
             .description("Should we try to fix a Desync for a last time (with a Delay) (doesnt include upper value)")
             .defaultValue(true)
-            .visible(() -> !waitforDesyncPacket.get())
+        .visible(() -> !waitForDesyncPacket.get())
             .build());
 
     private final Setting<Integer> finalFixDelayTicks = sgGeneral.add(new IntSetting.Builder()
@@ -105,8 +116,9 @@ public class SuperReach extends Module {
             .defaultValue(2)
             .sliderMin(1)
             .sliderMax(60)
-            .visible(() -> finalFix.get() && !waitforDesyncPacket.get())
+        .visible(() -> finalFix.get() && !waitForDesyncPacket.get())
             .build());
+    // end of useless settings
 
     private Entity target;
     private Vec3d startPos;
@@ -139,7 +151,7 @@ public class SuperReach extends Module {
             return;
 
         boolean canAct = !returnNextTick && !waitingForFinalFix;
-        if (!canAct && !waitforDesyncPacket.get())
+        if (!canAct && !waitForDesyncPacket.get())
             return;
 
         HitResult hit = RayCastUtils.raycastCrosshair(mc.getCameraEntity(), reach.get(), 1.0F);
@@ -147,12 +159,12 @@ public class SuperReach extends Module {
             return;
 
         if (hit instanceof EntityHitResult ehr) {
-            attemptHit(ehr.getEntity().getPos(), ehr.getEntity());
+            attemptHit(ehr.getEntity().getEntityPos(), ehr.getEntity());
         } else {
             for (Entity e : getNearbyEntities(mc.world, hit.getPos())) {
                 if (!e.isAttackable())
                     continue;
-                attemptHit(e.getPos(), e);
+                attemptHit(e.getEntityPos(), e);
                 break;
             }
         }
@@ -175,17 +187,17 @@ public class SuperReach extends Module {
     }
 
     private void attemptHit(Vec3d pos, Entity entity) {
-        if (pos.distanceTo(mc.player.getPos()) < 3)
+        if (pos.distanceTo(mc.player.getEntityPos()) < aimbotSize.get())
             return;
 
-        ArrayList<Vec3d> steps = calculateSteps(mc.player.getPos(), pos);
+        ArrayList<Vec3d> steps = calculateSteps(mc.player.getEntityPos(), pos);
         if (steps == null) {
             ChatUtils.error("Unreachable target.");
             return;
         }
 
         target = entity;
-        startPos = mc.player.getPos();
+        startPos = mc.player.getEntityPos();
         targetPos = pos;
         currentTargetPos = pos;
 
@@ -218,13 +230,13 @@ public class SuperReach extends Module {
             return;
         }
 
-        if (returnNextTick && fixAttempts >= maxFixAttempts.get() && !waitforDesyncPacket.get()) {
+        if (returnNextTick && fixAttempts >= maxFixAttempts.get() && !waitForDesyncPacket.get()) {
             returnNextTick = false;
             waitingForFinalFix = finalFix.get();
             return;
         }
 
-        if (waitingForFinalFix && !waitforDesyncPacket.get()) {
+        if (waitingForFinalFix && !waitForDesyncPacket.get()) {
             if (ticksSinceDesync++ >= finalFixDelayTicks.get()) {
                 moveSmoothly(targetPos, startPos, () -> {
                 });
@@ -274,7 +286,7 @@ public class SuperReach extends Module {
     }
 
     private void doHeightFix() {
-        if (waitforDesyncPacket.get())
+        if (waitForDesyncPacket.get())
             return;
 
         Vec3d down = startPos.subtract(0, heightFixOffset.get(), 0);
@@ -285,8 +297,8 @@ public class SuperReach extends Module {
 
     private List<Entity> getNearbyEntities(World world, Vec3d pos) {
         Box box = new Box(
-                pos.x - 3, pos.y - 3, pos.z - 3,
-                pos.x + 3, pos.y + 3, pos.z + 3);
+            pos.x - aimbotSize.get(), pos.y - aimbotSize.get(), pos.z - aimbotSize.get(),
+            pos.x + aimbotSize.get(), pos.y + aimbotSize.get(), pos.z + aimbotSize.get());
         return world.getOtherEntities(null, box);
     }
 }
