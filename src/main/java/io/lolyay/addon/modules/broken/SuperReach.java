@@ -148,7 +148,7 @@ public class SuperReach extends Module {
         if (event.action != KeyAction.Press)
             return;
         if (event.button() != GLFW_MOUSE_BUTTON_LEFT)
-            return;
+            return; // This click checking is bad
 
         boolean canAct = !returnNextTick && !waitingForFinalFix;
         if (!canAct && !waitForDesyncPacket.get())

@@ -22,13 +22,13 @@ import net.minecraft.util.math.Direction;
 
 public class ShulkerDupe extends Module {
 
-    private final SettingGroup sgAutoTool = settings.getDefaultGroup();
+    private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
     public ShulkerDupe() {
         super(DupersUnitedPublicAddon.CATEGORY, "shulker-dupe", "Works in 1.19 and below. Patched on Paper.");
     }
 
-    private final Setting<Boolean> usePickaxe = sgAutoTool.add(new BoolSetting.Builder()
+    private final Setting<Boolean> usePickaxe = sgGeneral.add(new BoolSetting.Builder()
         .name("Use Pickaxe")
         .description("Uses Pickaxe when breaking shulker.")
         .defaultValue(true)
