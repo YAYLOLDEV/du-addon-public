@@ -2,14 +2,15 @@ package io.lolyay.addon;
 
 import com.mojang.logging.LogUtils;
 import io.lolyay.addon.commands.*;
-import io.lolyay.addon.commands.ClickSlotCommand;
-import io.lolyay.addon.modules.*;
+import io.lolyay.addon.modules.AttributeSwap;
+import io.lolyay.addon.modules.PacketDelay;
 import io.lolyay.addon.modules.broken.AntiSetServerPosition;
 import io.lolyay.addon.modules.broken.SuperReach;
 import io.lolyay.addon.modules.crashes.BundleCrash;
 import io.lolyay.addon.modules.dupes.PaperBookDupe;
 import io.lolyay.addon.modules.dupes.ShulkerDupe;
 import io.lolyay.addon.modules.dupes.TradeDupe;
+import io.lolyay.addon.modules.dupes.TridentDupe;
 import io.lolyay.addon.modules.settingsmodules.ForEachSettings;
 import io.lolyay.addon.modules.settingsmodules.GuiMacros;
 import io.lolyay.addon.modules.settingsmodules.GuiSlotNbt;
@@ -67,6 +68,7 @@ public class DupersUnitedPublicAddon extends MeteorAddon {
         Modules.get().add(new PaperBookDupe());
         Modules.get().add(new ShulkerDupe());
         Modules.get().add(new TradeDupe());
+        Modules.get().add(new TridentDupe());
     }
 
     private void initCommands() {
