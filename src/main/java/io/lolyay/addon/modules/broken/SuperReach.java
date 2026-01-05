@@ -3,7 +3,7 @@ package io.lolyay.addon.modules.broken;
 import io.lolyay.addon.DupersUnitedPublicAddon;
 import io.lolyay.addon.utils.PacketUtils;
 import io.lolyay.addon.utils.RayCastUtils;
-import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
+import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -142,12 +142,12 @@ public class SuperReach extends Module {
 
 
     @EventHandler
-    private void onLeftClick(MouseClickEvent event) {
+    private void onLeftClick(MouseButtonEvent event) {
         if (mc.currentScreen != null)
             return;
         if (event.action != KeyAction.Press)
             return;
-        if (event.button() != GLFW_MOUSE_BUTTON_LEFT)
+        if (event.button != GLFW_MOUSE_BUTTON_LEFT)
             return; // This click checking is bad
 
         boolean canAct = !returnNextTick && !waitingForFinalFix;
@@ -159,12 +159,12 @@ public class SuperReach extends Module {
             return;
 
         if (hit instanceof EntityHitResult ehr) {
-            attemptHit(ehr.getEntity().getEntityPos(), ehr.getEntity());
+            attemptHit(ehr.getEntity().getPos(), ehr.getEntity());
         } else {
             for (Entity e : getNearbyEntities(mc.world, hit.getPos())) {
                 if (!e.isAttackable())
                     continue;
-                attemptHit(e.getEntityPos(), e);
+                attemptHit(e.getPos(), e);
                 break;
             }
         }
@@ -187,17 +187,17 @@ public class SuperReach extends Module {
     }
 
     private void attemptHit(Vec3d pos, Entity entity) {
-        if (pos.distanceTo(mc.player.getEntityPos()) < aimbotSize.get())
+        if (pos.distanceTo(mc.player.getPos()) < aimbotSize.get())
             return;
 
-        ArrayList<Vec3d> steps = calculateSteps(mc.player.getEntityPos(), pos);
+        ArrayList<Vec3d> steps = calculateSteps(mc.player.getPos(), pos);
         if (steps == null) {
             ChatUtils.error("Unreachable target.");
             return;
         }
 
         target = entity;
-        startPos = mc.player.getEntityPos();
+        startPos = mc.player.getPos();
         targetPos = pos;
         currentTargetPos = pos;
 
