@@ -19,6 +19,7 @@ public class ClickSlotCommand extends Command {
                .then(argument("button", IntegerArgumentType.integer())
                .then(argument("action", EnumArgumentType.enumArgument(SlotActionType.PICKUP))
                .executes((context) -> {
+                   assert mc.interactionManager != null; // Again, you shouldn't be able to run commands if you're not in a game
                    int slot = context.getArgument("slot", Integer.class);
                    int button = context.getArgument("button", Integer.class);
                    SlotActionType action = context.getArgument("action", SlotActionType.class);

@@ -26,6 +26,7 @@ public class ForEachPlayerCommand extends Command {
                    assert mc.player != null; // Should never happen, how can you run a command and not be connected?
 
                     ForEachSettings settings = Modules.get().get(ForEachSettings.class);
+                    assert settings != null;
                     int delay = settings.delay.get();
                     int index = 0;
                     int offset = 0;
