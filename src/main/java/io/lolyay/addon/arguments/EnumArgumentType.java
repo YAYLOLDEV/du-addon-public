@@ -13,6 +13,10 @@ import net.minecraft.text.Text;
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * @param <T> The Enum to use as an Argument Type
+ * @author KhaoDoesDev
+ */
 public class EnumArgumentType<T extends Enum<T>> implements ArgumentType<T> {
     private static final DynamicCommandExceptionType NO_SUCH_TYPE = new DynamicCommandExceptionType(value ->
             Text.literal(value + " is not a valid argument."));
