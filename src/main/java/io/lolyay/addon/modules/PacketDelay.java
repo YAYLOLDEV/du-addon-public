@@ -36,7 +36,7 @@ public class PacketDelay extends Module {
     );
 
     public PacketDelay() {
-        super(DupersUnitedPublicAddon.CATEGORY, "packet-delay", "Delays packets.");
+        super(DupersUnitedPublicAddon.CATEGORY, "duper-packet-delay", "Delays packets.");
     }
 
 
