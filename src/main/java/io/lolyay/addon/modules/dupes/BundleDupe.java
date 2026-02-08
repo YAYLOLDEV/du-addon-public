@@ -15,6 +15,9 @@ import net.minecraft.block.Blocks;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ToolComponent;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.vehicle.ChestBoatEntity;
+import net.minecraft.entity.vehicle.ChestMinecartEntity;
+import net.minecraft.entity.vehicle.ChestRaftEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.message.ChatVisibility;
@@ -154,6 +157,50 @@ public class BundleDupe extends Module {
 
     public BundleDupe() {
         super(DupersUnitedPublicAddon.CATEGORY, "bundle-dupe-plus", "Works on Paper and Spigot; Look on dupedb.net for settings info; Credit to Nummernuts and numberz <3");
+    }
+
+    @Override
+    public void onActivate() {
+        if (this.lagMethod.get() == LagMethod.BoatNBT) {
+            if (this.mc.player == null) {
+                return;
+            }
+
+            Entity vehicle = this.mc.player.getVehicle();
+            boolean isValidVehicle =
+                vehicle instanceof ChestBoatEntity ||
+                    vehicle instanceof ChestRaftEntity ||
+                    vehicle instanceof ChestMinecartEntity;
+
+            if (!isValidVehicle) {
+                this.error("You must be sitting in a Chest Boat or Minecart with Chest for this Lag Method!");
+                this.toggle();
+                return;
+            }
+        }
+
+        if (this.lagMethod.get() == LagMethod.EntityNBT) {
+            if (this.mc.crosshairTarget == null || this.mc.crosshairTarget.getType() != HitResult.Type.ENTITY) {
+                this.error("You must be looking at a Chest Boat or Minecart with Chest for this Lag Method!");
+                this.toggle();
+                return;
+            }
+
+            Entity target = ((EntityHitResult) this.mc.crosshairTarget).getEntity();
+            boolean isValidTarget = target instanceof ChestBoatEntity || target instanceof ChestRaftEntity || target instanceof ChestMinecartEntity;
+            if (!isValidTarget) {
+                this.error("Target is not a Chest Boat or Minecart with Chest!");
+                this.toggle();
+                return;
+            }
+        }
+
+        this.dupeActivated = true;
+        switch (this.dupeMethod.get().ordinal()) {
+            case 0 -> this.executeTimeoutDupe();
+            case 1 -> this.executeKickDupe();
+        }
+
     }
 
     @Override
