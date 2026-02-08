@@ -1,13 +1,8 @@
 package io.lolyay.addon.mixin;
 
 import io.lolyay.addon.ChannelKeeper;
-import io.lolyay.addon.VersionKeeper;
-import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.events.packets.PacketEvent;
-import net.minecraft.client.network.ClientConfigurationNetworkHandler;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.network.packet.s2c.config.SelectKnownPacksS2CPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,4 +15,6 @@ public abstract class ClientPlayNetworkHandlerMixin {
         if(!ChannelKeeper.channels.contains(payload.getId().toString()))
             ChannelKeeper.channels.add(payload.getId().toString());
     }
+
+
 }
