@@ -63,8 +63,8 @@ public class ShulkerDupe extends Module {
             }
             for (int i = 0; i < 8; i++) {
                 if (usePickaxe.get() && (mc.player.getInventory().getStack(0).isIn(ItemTags.PICKAXES) || mc.player.getInventory().getStack(1).isIn(ItemTags.PICKAXES) || mc.player.getInventory().getStack(2).isIn(ItemTags.PICKAXES) || mc.player.getInventory().getStack(3).isIn(ItemTags.PICKAXES) || mc.player.getInventory().getStack(4).isIn(ItemTags.PICKAXES) || mc.player.getInventory().getStack(5).isIn(ItemTags.PICKAXES) || mc.player.getInventory().getStack(6).isIn(ItemTags.PICKAXES) || mc.player.getInventory().getStack(7).isIn(ItemTags.PICKAXES) || mc.player.getInventory().getStack(8).isIn(ItemTags.PICKAXES)) && !(mc.player.getMainHandStack().isIn(ItemTags.PICKAXES))) {
-                    mc.player.getInventory().setSelectedSlot(mc.player.getInventory().selectedSlot + 1);
-                    if (mc.player.getInventory().selectedSlot > 8) mc.player.getInventory().setSelectedSlot(0);
+                    mc.player.getInventory().setSelectedSlot(mc.player.getInventory().getSelectedSlot() + 1);
+                    if (mc.player.getInventory().getSelectedSlot() > 8) mc.player.getInventory().setSelectedSlot(0);
                 }
             }
         } else {

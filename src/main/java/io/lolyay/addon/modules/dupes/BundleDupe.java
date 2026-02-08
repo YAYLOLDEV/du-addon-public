@@ -4,7 +4,6 @@ import io.lolyay.addon.DupersUnitedPublicAddon;
 import io.lolyay.addon.utils.timer.MsTimer;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.settings.*;
@@ -27,6 +26,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.screen.sync.ItemStackHash;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -293,7 +293,7 @@ public class BundleDupe extends Module {
         assert mc.player != null;
         assert mc.getNetworkHandler() != null;
         for (int i = 0; i < this.clickslotPackets.get(); ++i) {
-            ClickSlotC2SPacket packet = new ClickSlotC2SPacket(0, 0, 0, 0, SlotActionType.PICKUP, ItemStack.EMPTY, new Int2ObjectOpenHashMap<>());
+            ClickSlotC2SPacket packet = new ClickSlotC2SPacket(0, 0, (short) 0, (byte) 0, SlotActionType.PICKUP, new Int2ObjectArrayMap<>(), ItemStackHash.EMPTY);
             this.mc.getNetworkHandler().sendPacket(packet);
         }
 
@@ -312,16 +312,16 @@ public class BundleDupe extends Module {
 
         RegistryEntryList<Block> registryList = RegistryEntryList.of(entries);
         ToolComponent.Rule rule = ToolComponent.Rule.of(registryList, 6.0F);
-        ToolComponent toolComponent = new ToolComponent(List.of(rule), 1.0F, 1);
+        ToolComponent toolComponent = new ToolComponent(List.of(rule), 1.0F, 1, true);
         stack.set(DataComponentTypes.TOOL, toolComponent);
-        Int2ObjectMap<ItemStack> modifiedSlots = new Int2ObjectArrayMap<>(128);
+        Int2ObjectMap<ItemStackHash> modifiedSlots = new Int2ObjectArrayMap<>(128);
 
         for (int i = 0; i < 128; ++i) {
-            modifiedSlots.put(i, stack);
+            modifiedSlots.put(i, ItemStackHash.fromItemStack(stack, component -> -1));
         }
 
         for (int i = 0; i < this.exploitPackets.get(); ++i) {
-            ClickSlotC2SPacket packet = new ClickSlotC2SPacket(0, 0, 0, 0, SlotActionType.PICKUP, stack, modifiedSlots);
+            ClickSlotC2SPacket packet = new ClickSlotC2SPacket(0, 0, (short) 0, (byte) 0, SlotActionType.PICKUP, modifiedSlots, ItemStackHash.fromItemStack(stack, component -> -1));
             this.mc.getNetworkHandler().sendPacket(packet);
         }
 
