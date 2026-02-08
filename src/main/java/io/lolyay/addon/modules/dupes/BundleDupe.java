@@ -26,7 +26,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.screen.sync.ItemStackHash;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -293,7 +292,7 @@ public class BundleDupe extends Module {
         assert mc.player != null;
         assert mc.getNetworkHandler() != null;
         for (int i = 0; i < this.clickslotPackets.get(); ++i) {
-            ClickSlotC2SPacket packet = new ClickSlotC2SPacket(0, 0, (short) 0, (byte) 0, SlotActionType.PICKUP, new Int2ObjectArrayMap<>(), ItemStackHash.EMPTY);
+            ClickSlotC2SPacket packet = new ClickSlotC2SPacket(0, 0, (short) 0, (byte) 0, SlotActionType.PICKUP, ItemStack.EMPTY, new Int2ObjectArrayMap<>());
             this.mc.getNetworkHandler().sendPacket(packet);
         }
 
@@ -312,16 +311,16 @@ public class BundleDupe extends Module {
 
         RegistryEntryList<Block> registryList = RegistryEntryList.of(entries);
         ToolComponent.Rule rule = ToolComponent.Rule.of(registryList, 6.0F);
-        ToolComponent toolComponent = new ToolComponent(List.of(rule), 1.0F, 1, true);
+        ToolComponent toolComponent = new ToolComponent(List.of(rule), 1.0F, 1);
         stack.set(DataComponentTypes.TOOL, toolComponent);
-        Int2ObjectMap<ItemStackHash> modifiedSlots = new Int2ObjectArrayMap<>(128);
+        Int2ObjectMap<ItemStack> modifiedSlots = new Int2ObjectArrayMap<>(128);
 
         for (int i = 0; i < 128; ++i) {
-            modifiedSlots.put(i, ItemStackHash.fromItemStack(stack, x -> -1));
+            modifiedSlots.put(i, stack);
         }
 
         for (int i = 0; i < this.exploitPackets.get(); ++i) {
-            ClickSlotC2SPacket packet = new ClickSlotC2SPacket(0, 0, (short) 0, (byte) 0, SlotActionType.PICKUP, modifiedSlots, ItemStackHash.fromItemStack(stack, x -> -1));
+            ClickSlotC2SPacket packet = new ClickSlotC2SPacket(0, 0, (short) 0, (byte) 0, SlotActionType.PICKUP, stack, modifiedSlots);
             this.mc.getNetworkHandler().sendPacket(packet);
         }
 
