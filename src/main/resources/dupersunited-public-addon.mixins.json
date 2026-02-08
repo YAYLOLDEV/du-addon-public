@@ -5,6 +5,7 @@
   "client": [
     "AbstractSignEditScreenMixin",
     "ClientPlayNetworkHandlerMixin",
+    "GameMenuScreenMixin",
     "HandledScreenScreenMixin",
     "PacketCodecsMixin",
     "ShulkerBoxScreenMixin"
